@@ -7,8 +7,22 @@ const resetScore = document.getElementById('resetScore');
 let jsScore = document.querySelector('#js-score');
 let jsResult = document.querySelector('#js-result');
 let jsMoves = document.querySelector('#js-moves');
+const autoPlayBtn = document.querySelector('#js-auto-play-btn');
+
+document.body.addEventListener('keydown', (event) => {
+  if (event.key === 'r') {
+    playGame(rock);
+  } else if (event.key === 'p') {
+    playGame(paper);
+  } else if (event.key === 's') {
+    playGame(scissors);
+  }
+})
 
 console.log(JSON.parse(localStorage.getItem('score')));
+
+let isAutoPlaying = false;
+let intervalID;
 
 let score =  JSON.parse(localStorage.getItem('score')) || {
     wins: 0,
@@ -32,11 +46,6 @@ updateScoreElement();
 
 
 
-
-
-
-
-
 //steps(algo) to build the rock paper scissors game
 //when a button is clicked:
 //1. computer randomly selects a move
@@ -57,6 +66,11 @@ scissors.addEventListener('click', () => {
   playGame('scissors');
 })
 
+autoPlayBtn.addEventListener('click', () => {
+  autoPlay();
+  console.log('autoPlayBtn clicked');
+})
+
 resetScore.addEventListener('click', () => {
   score.wins = 0;
   score.losses = 0;
@@ -67,9 +81,18 @@ resetScore.addEventListener('click', () => {
 
 
 
-function js_result() {}
-
-function js_moves() {}
+function autoPlay() {
+  if (!isAutoPlaying) {
+    intervalID = setInterval(() => {
+    const playerMove = pickComputerMove();
+    playGame(playerMove);
+    }, 1000)
+    isAutoPlaying = true;
+  } else {
+    clearInterval(intervalID);
+    isAutoPlaying = false;
+  }
+}
 
 
 function updateScoreElement() {
@@ -144,3 +167,6 @@ function pickComputerMove() {
 
   return computerMove;
 }
+
+
+// using the dom, change auto play when auto play is enabled to stop.

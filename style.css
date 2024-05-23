@@ -47,7 +47,8 @@ body {
   margin-top: 60px;
 }
 
-.reset-score-btn {
+.reset-score-btn,
+.auto-play-btn {
   background: #fff;
   border: none;
   padding: 8px 15px;
